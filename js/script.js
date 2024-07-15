@@ -14,10 +14,7 @@ let totalPriceElement = document.querySelector('.total-price')
 
 
 let $ = document.createElement.bind(document);
-
 allProducts.forEach(function(product){
-    
-    // allProductsContainer.insertAdjacentHTML('beforeend', '<div class="product"><h2 class="title">'+product.title+'</h2><img src="'+product.img+'" class="img"><div class="detail"><span class="price">' + '$' +product.price+'</span><span class="add-to-basket" onclick="addProductToBasket('+product.id+')">ADD TO CART</span></div></div>');
 
     allProductsContainer.insertAdjacentHTML('beforeend', 
         `<div class="product">
@@ -29,8 +26,8 @@ allProducts.forEach(function(product){
             </div>
         </div>`
     );
-
 });
+
 
 function addProductToBasket(productId){
 
@@ -74,6 +71,8 @@ function removeProductFromBasket(productId){
         return product.id !==  productId;
     });
     basketProductGenerator(userBasket);
+
+    calcTotalPrice(userBasket);
 }
 
 function calcTotalPrice(userArrayBasket){
