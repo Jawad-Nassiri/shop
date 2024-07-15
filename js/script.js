@@ -16,37 +16,20 @@ let totalPriceElement = document.querySelector('.total-price')
 let $ = document.createElement.bind(document);
 
 allProducts.forEach(function(product){
+    
+    // allProductsContainer.insertAdjacentHTML('beforeend', '<div class="product"><h2 class="title">'+product.title+'</h2><img src="'+product.img+'" class="img"><div class="detail"><span class="price">' + '$' +product.price+'</span><span class="add-to-basket" onclick="addProductToBasket('+product.id+')">ADD TO CART</span></div></div>');
 
-    let productContainer = $('div');
-    productContainer.classList.add('product');
+    allProductsContainer.insertAdjacentHTML('beforeend', 
+        `<div class="product">
+            <h2 class="title">${product.title}</h2>
+            <img src="${product.img}" class="img">
+            <div class="detail">
+                <span class="price">$${product.price}</span>
+                <span class="add-to-basket" onclick="addProductToBasket(${product.id})">ADD TO CART</span>
+            </div>
+        </div>`
+    );
 
-    let titleProduct = $('h2');
-    titleProduct.innerHTML = product.title;
-    titleProduct.classList.add('title');
-
-    let productImage = $('img');
-    productImage.src = product.img;
-    productImage.classList.add('img');
-
-    let detailsProductContainer = $('div');
-    detailsProductContainer.classList.add('detail');
-
-    let priceProduct = $('span');
-    priceProduct.innerHTML = product.price;
-    priceProduct.classList.add('price');
-
-    let addToBasketBtn = $('span');
-    addToBasketBtn.innerHTML = 'ADD TO CART';
-    addToBasketBtn.classList.add('add-to-basket');
-    addToBasketBtn.addEventListener('click', function(){
-        addProductToBasket(product.id);
-    })
-
-    detailsProductContainer.append(priceProduct, addToBasketBtn);
-
-    productContainer.append(titleProduct, productImage, detailsProductContainer);
-
-    allProductsContainer.append(productContainer);
 });
 
 function addProductToBasket(productId){
@@ -66,47 +49,22 @@ function basketProductGenerator(userBasketArray) {
     productDetailContainer.innerHTML = '';
 
     userBasketArray.forEach(function (product) {
-        let productDetailsContainer = $('div');
-        productDetailsContainer.classList.add('product-detail');
 
-        let productImageContainer = $('div');
-        productImageContainer.classList.add('img-product');
+        productDetailContainer.insertAdjacentHTML('beforeend', 
+            `<div class="product-detail">
+                <div class="img-product">
+                    <img src="${product.img}">
+                </div>
+                <div class="product-price">
+                    <p>${product.price}</p>
+                </div>
+                <div class="quantity-btn">
+                    <input type="number" placeholder="1" value="${product.count}" onchange="updateProductCount(${product.id}, this.value)">
+                    <button onclick="removeProductFromBasket(${product.id})">REMOVE</button>
+                </div>
+            </div>`
+        );
 
-        let productImage = $('img');
-        productImage.src = product.img;
-
-        productImageContainer.append(productImage);
-
-        let productPriceContainer = $('div');
-        productPriceContainer.classList.add('product-price');
-
-        let productPrice = $('p');
-        productPrice.innerHTML = product.price;
-
-        productPriceContainer.append(productPrice);
-
-        let quantityAndBtnContainer = $('div');
-        quantityAndBtnContainer.classList.add('quantity-btn');
-
-        let quantityInput = $('input');
-        quantityInput.setAttribute('type', 'number');
-        quantityInput.setAttribute('placeholder', '1');
-        quantityInput.value = product.count;
-        quantityInput.addEventListener('change', function(){
-            updateProductCount(product.id, quantityInput.value);
-        })
-
-
-        let removeBtn = $('button');
-        removeBtn.innerHTML = 'REMOVE';
-        removeBtn.addEventListener('click', function(){
-            removeProductFromBasket(product.id);
-        })
-
-        quantityAndBtnContainer.append(quantityInput, removeBtn);
-
-        productDetailsContainer.append(productImageContainer, productPriceContainer, quantityAndBtnContainer);
-        productDetailContainer.append(productDetailsContainer);
     });
 }
 
